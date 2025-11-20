@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Seleccionar Columnas – Algoritmo 1</title>
+
+    <style>
+        body {
+            font-family: 'Garamond', 'Georgia', serif;
+            background: url("{{ url_for('static', filename='fondo.png') }}") no-repeat center center fixed;
+            background-size: cover;
+            color: #f5e1a4; 
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        h1 {
+            font-family: 'Cursive', serif;
+            color: #d9a441;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 6px #000; 
+        }
+
+        .card {
+            width: 400px;
+            max-width: 90%;
+            margin: 0 auto 30px;
+            padding: 30px 25px;
+            background: #2a262f; 
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(217, 164, 65, 0.5); 
+            border: 1px solid #5c4b3d; 
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 35px rgba(217, 164, 65, 0.8);
+        }
+
+        h2 {
+            font-family: 'Cursive', serif;
+            color: #c69c6d;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 4px #000;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        input[type="file"] {
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #5c4b3d;
+            background: #3a333f;
+            color: #f5e1a4;
+        }
+
+        input[type="submit"] {
+            padding: 10px 25px;
+            background: #5c2a57;
+            color: #f5e1a4;
+            font-weight: bold;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background: #7b3a7d;
+            transform: scale(1.05);
+            box-shadow: 0 0 10px #d9a441;
+        }
+
+        a.back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #d9a441;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        a.back-link:hover {
+            color: #f5e1a4;
+            text-shadow: 1px 1px 5px #000;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="card">
+    <h2>Selecciona las columnas a normalizar</h2>
+
+    <form method="POST" action="/algoritmo1/columnas" id="normalizacionForm">
+        {% for col in columnas %}
+        <label class="checkbox-label">
+            <input type="checkbox" name="columnas" value="{{ col }}" checked>
+            {{ col }}
+        </label>
+        {% endfor %}
+
+        <hr>
+
+        <h3>Escoge el rango para normalización lineal (Min-Max)</h3>
+
+        <label>Valor mínimo:</label>
+        <input type="number" step="any" name="min_val" id="min_val" required>
+
+        <label>Valor máximo:</label>
+        <input type="number" step="any" name="max_val" id="max_val" required>
+
+        <input type="submit"></button>
+    </form>
+    <a class="back-link" href="/">⬅ Volver</a>
+</div>
+
+<script>
+    const form = document.getElementById('normalizacionForm');
+
+    form.addEventListener('submit', function(event) {
+        const minVal = parseFloat(document.getElementById('min_val').value);
+        const maxVal = parseFloat(document.getElementById('max_val').value);
+
+        if (maxVal < minVal) {
+            alert('El valor máximo no puede ser menor que el mínimo.');
+            event.preventDefault(); 
+        }
+    });
+</script>
+
+</body>
+</html>
